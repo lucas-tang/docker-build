@@ -1,7 +1,7 @@
 #!/bin/sh
 set -ex
 
-apt-get install "docker-ce=18.03*"
+sudo apt-get install "docker-ce=18.03*"
 
 if [ "x$TRAVIS_BRANCH" = "xmaster" ]; then
   export TAG="latest";
