@@ -1,4 +1,4 @@
-#!/bin/#!/bin/sh
+#!/bin/sh
 set -ex
 
 apt-get install "docker-ce=18.03*"
