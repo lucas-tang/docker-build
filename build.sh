@@ -107,7 +107,7 @@ if [ "$MANIFEST" = true ] ; then
     for arch in $ARCHS; do
       echo
       echo "Pull ${REPO}:${TAG_COMMIT}-${arch}"
-      docker pull ${REPO}:${TAG_COMMIT}-${arch} || ( echo "Skipping push of manifest ${REPO}:${TAG}"; exit 0 )
+      docker pull ${REPO}:${TAG_COMMIT}-${arch} || exit 0 #Skipping push of manifest ${REPO}:${TAG}
 
       echo
       echo "Add ${REPO}:${TAG_COMMIT}-${arch} to manifest ${REPO}:${TAG_COMMIT}"
