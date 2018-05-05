@@ -23,9 +23,8 @@ BASE="${!BASE_STR}"
 
 #Tag for architecture
 if [ "x$TAG" = "xlatest" ]; then
-  ALIAS_ARCH_TAG="${TAG}-${DOCKER_ARCH}"
-  ORG_TAG="$TAG"
-  TAG="$(git describe --always --dirty --tags || echo 0.1)"
+  TAG_COMMIT="$(git describe --always --dirty --tags || echo 0.1)"
+  ARCH_TAG_COMMIT="${TAG_COMMIT}-${DOCKER_ARCH}"
 fi
 : ${ARCH_TAG:="${TAG}-${DOCKER_ARCH}"}
 
@@ -40,7 +39,7 @@ QEMU_ARCH="${!QEMU_ARCH_STR}"
 ###############################
 
 if [ "$BUILD" = true ] ; then
-  echo "BUILDING DOCKER $REPO:$ARCH_TAG"
+  echo "BUILDING DOCKER $REPO:$ARCH_TAG_COMMIT"
 
   #Prepare qemu
   mkdir -p qemu
@@ -63,13 +62,13 @@ if [ "$BUILD" = true ] ; then
 
   #Build docker
   echo "Building $REPO:$ARCH_TAG using base image $BASE and qemu arch $QEMU_ARCH"
-  docker pull $REPO:$ALIAS_ARCH_TAG || true
-  docker build -t $REPO:$ARCH_TAG --cache-from $REPO:$ALIAS_ARCH_TAG --build-arg BASE=$BASE --build-arg arch=$QEMU_ARCH .
+  docker pull $REPO:$ARCH_TAG || true
+  docker build -t $REPO:$ARCH_TAG --cache-from $REPO:$ARCH_TAG --build-arg BASE=$BASE --build-arg arch=$QEMU_ARCH .
 
-  if [ -n "$ALIAS_ARCH_TAG" ] ; then
-    docker tag $REPO:$ARCH_TAG $REPO:${ALIAS_ARCH_TAG}
+  if [ -n "$TAG_COMMIT" ] ; then
+    echo "Tag alias: $REPO:$ARCH_TAG_COMMIT"
+    docker tag $REPO:$ARCH_TAG $REPO:$ARCH_TAG_COMMIT
   fi
-
 fi
 
 ##############################
@@ -78,9 +77,9 @@ if [ "$PUSH" = true ] ; then
   echo "PUSHING TO DOCKER: $REPO:$ARCH_TAG"
   docker push $REPO:$ARCH_TAG
 
-  if [ -n "$ALIAS_ARCH_TAG" ] ; then
-    echo "PUSHING TO DOCKER: $REPO:${ALIAS_ARCH_TAG}"
-    docker push $REPO:${ALIAS_ARCH_TAG}
+  if [ -n "$TAG_COMMIT" ] ; then
+    echo "PUSHING ALIAS TO DOCKER: $REPO:${ARCH_TAG_COMMIT}"
+    docker push $REPO:${ARCH_TAG_COMMIT}
   fi
 fi
 
@@ -104,21 +103,21 @@ if [ "$MANIFEST" = true ] ; then
   echo "Push manifest ${REPO}:${TAG}"
   docker manifest push ${REPO}:${TAG}
 
-  if [ -n "$ALIAS_ARCH_TAG" ] ; then
+  if [ -n "$TAG_COMMIT" ] ; then
     for arch in $ARCHS; do
       echo
-      echo "Pull ${REPO}:${ORG_TAG}-${arch}"
-      docker pull ${REPO}:${ORG_TAG}-${arch}
+      echo "Pull ${REPO}:${TAG_COMMIT}-${arch}"
+      docker pull ${REPO}:${TAG_COMMIT}-${arch} || continue
 
       echo
-      echo "Add ${REPO}:${ORG_TAG}-${arch} to manifest ${REPO}:${ORG_TAG}"
-      docker manifest create --amend ${REPO}:${ORG_TAG} ${REPO}:${ORG_TAG}-${arch}
-      docker manifest annotate       ${REPO}:${ORG_TAG} ${REPO}:${ORG_TAG}-${arch} --arch ${arch}
+      echo "Add ${REPO}:${TAG_COMMIT}-${arch} to manifest ${REPO}:${TAG_COMMIT}"
+      docker manifest create --amend ${REPO}:${TAG_COMMIT} ${REPO}:${TAG_COMMIT}-${arch}
+      docker manifest annotate       ${REPO}:${TAG_COMMIT} ${REPO}:${TAG_COMMIT}-${arch} --arch ${arch}
     done
 
     echo
-    echo "Push manifest ${REPO}:${ORG_TAG}"
-    docker manifest push ${REPO}:${ORG_TAG}
+    echo "Push manifest ${REPO}:${TAG_COMMIT}"
+    docker manifest push ${REPO}:${TAG_COMMIT}
   fi
 
 fi
