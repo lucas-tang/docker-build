@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
-cd $(dirname $0)
+PWD=$(dirname $0)
+cd $PWD
 
 #Usually set from the outside
 DOCKER_ARCH_ACTUAL="$(docker version -f '{{.Server.Arch}}')"
@@ -10,7 +11,6 @@ DOCKER_ARCH_ACTUAL="$(docker version -f '{{.Server.Arch}}')"
 : ${BUILD:="true"}
 : ${PUSH:="true"}
 : ${MANIFEST:="false"}
-: ${ARCHS:=""}
 
 #good defaults
 test -e ./build.config && . ./build.config
@@ -86,38 +86,12 @@ fi
 ###############################
 
 if [ "$MANIFEST" = true ] ; then
-  echo "PUSHING MANIFEST for $ARCHS"
-
-  for arch in $ARCHS; do
-    echo
-    echo "Pull ${REPO}:${TAG}-${arch}"
-    docker pull ${REPO}:${TAG}-${arch}
-
-    echo
-    echo "Add ${REPO}:${TAG}-${arch} to manifest ${REPO}:${TAG}"
-    docker manifest create --amend ${REPO}:${TAG} ${REPO}:${TAG}-${arch}
-    docker manifest annotate       ${REPO}:${TAG} ${REPO}:${TAG}-${arch} --arch ${arch}
-  done
-
-  echo
-  echo "Push manifest ${REPO}:${TAG}"
-  docker manifest push ${REPO}:${TAG}
+  echo "PUSHING MANIFEST for ${REPO}:${TAG}"
+  $PWD/build_manifest "${REPO}:${TAG}"
 
   if [ -n "$TAG_COMMIT" ] ; then
-    for arch in $ARCHS; do
-      echo
-      echo "Pull ${REPO}:${TAG_COMMIT}-${arch}"
-      docker pull ${REPO}:${TAG_COMMIT}-${arch} || exit 0 #Skipping push of manifest ${REPO}:${TAG}
-
-      echo
-      echo "Add ${REPO}:${TAG_COMMIT}-${arch} to manifest ${REPO}:${TAG_COMMIT}"
-      docker manifest create --amend ${REPO}:${TAG_COMMIT} ${REPO}:${TAG_COMMIT}-${arch}
-      docker manifest annotate       ${REPO}:${TAG_COMMIT} ${REPO}:${TAG_COMMIT}-${arch} --arch ${arch}
-    done
-
-    echo
-    echo "Push manifest ${REPO}:${TAG_COMMIT}"
-    docker manifest push ${REPO}:${TAG}
+    echo "PUSHING MANIFEST for ${REPO}:${TAG_COMMIT}"
+    $PWD/build_manifest "${REPO}:${TAG_COMMIT}" || exit 0 #Skipping push of manifest ${REPO}:${TAG}
   fi
 
 fi
