@@ -22,7 +22,7 @@ for arch in $ARCHS; do
   docker pull ${SOURCE_ARCH}
 
   #Push arch docker
-  if [ "x${SOURCE_ARCH}" = "x${TARGET_ARCH}" ]; then
+  if [ "x${SOURCE_ARCH}" != "x${TARGET_ARCH}" ]; then
     echo
     echo "Pushing ${TARGET_ARCH}"
     docker tag ${SOURCE_ARCH} ${TARGET_ARCH}
