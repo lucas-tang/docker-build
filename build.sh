@@ -85,11 +85,11 @@ fi
 
 if [ "$MANIFEST" = true ] ; then
   echo "PUSHING MANIFEST for ${REPO}:${TAG}"
-  ./build/build_manifest "${REPO}:${TAG}"
+  ./build/build_manifest.sh "${REPO}:${TAG}"
 
   if [ -n "$TAG_COMMIT" ] ; then
     echo "PUSHING MANIFEST for ${REPO}:${TAG_COMMIT}"
-    ./build/build_manifest "${REPO}:${TAG_COMMIT}" || exit 0 #Skipping push of manifest ${REPO}:${TAG}
+    ./build/build_manifest.sh "${REPO}:${TAG_COMMIT}" || exit 0 #Skipping push of manifest ${REPO}:${TAG}
   fi
 
 fi
