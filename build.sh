@@ -1,7 +1,5 @@
 #!/bin/bash
 set -e
-PWD=$(dirname $0)
-cd $PWD
 
 #Usually set from the outside
 DOCKER_ARCH_ACTUAL="$(docker version -f '{{.Server.Arch}}')"
@@ -87,11 +85,11 @@ fi
 
 if [ "$MANIFEST" = true ] ; then
   echo "PUSHING MANIFEST for ${REPO}:${TAG}"
-  $PWD/build_manifest "${REPO}:${TAG}"
+  ./build/build_manifest "${REPO}:${TAG}"
 
   if [ -n "$TAG_COMMIT" ] ; then
     echo "PUSHING MANIFEST for ${REPO}:${TAG_COMMIT}"
-    $PWD/build_manifest "${REPO}:${TAG_COMMIT}" || exit 0 #Skipping push of manifest ${REPO}:${TAG}
+    ./build/build_manifest "${REPO}:${TAG_COMMIT}" || exit 0 #Skipping push of manifest ${REPO}:${TAG}
   fi
 
 fi
