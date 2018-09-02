@@ -4,7 +4,7 @@ set -ex
 sudo apt-get update
 sudo apt-get install "docker-ce=18.03*"
 
-if [ "x$TRAVIS_BRANCH" = "xmaster" || "x$TRAVIS_BRANCH" = "xstable" ]; then
+if [ "x$TRAVIS_BRANCH" = "xmaster" -o "x$TRAVIS_BRANCH" = "xstable" ]; then
   export TAG="latest";
 else
   export TAG="devel";
