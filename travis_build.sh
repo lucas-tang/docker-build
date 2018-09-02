@@ -1,7 +1,7 @@
 #!/bin/sh
 set -ex
 
-if [ "x$TRAVIS_BRANCH" = "xmaster" ]; then
+if [ "x$TRAVIS_BRANCH" = "xmaster" -o "x$TRAVIS_BRANCH" = "xstable" ]; then
   export TAG="latest";
 else
   export TAG="devel";
