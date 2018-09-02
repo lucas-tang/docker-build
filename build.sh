@@ -39,6 +39,11 @@ QEMU_ARCH="${!QEMU_ARCH_STR}"
 if [ "$BUILD" = true ] ; then
   echo "BUILDING DOCKER $REPO:$ARCH_TAG_COMMIT"
 
+  #Change Directory
+  if [ -n "$DOCKER_FOLDER" ] ; then
+    cd $DOCKER_FOLDER
+  fi
+
   #Prepare qemu
   mkdir -p qemu
   cd qemu
