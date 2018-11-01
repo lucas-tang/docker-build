@@ -23,10 +23,8 @@ declare BASE_STR="BASE_$DOCKER_ARCH"
 BASE="${!BASE_STR}"
 
 #Tag for architecture
-if [ "x$TAG" = "xlatest" ]; then
-  TAG_COMMIT="$(git describe --always --dirty --tags || echo 0.1)"
-  ARCH_TAG_COMMIT="${TAG_COMMIT}-${DOCKER_ARCH}"
-fi
+TAG_COMMIT="$(git describe --always --dirty --tags || echo 0.1)"
+ARCH_TAG_COMMIT="${TAG_COMMIT}-$TAG-${DOCKER_ARCH}"
 : ${ARCH_TAG:="${TAG}-${DOCKER_ARCH}"}
 
 #Qemu binary

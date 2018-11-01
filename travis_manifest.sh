@@ -5,9 +5,9 @@ sudo apt-get update
 sudo apt-get install "docker-ce=18.03*"
 
 if [ "x$TRAVIS_BRANCH" = "xmaster" -o "x$TRAVIS_BRANCH" = "xstable" ]; then
-  export TAG="latest";
+  export TAG="${TAG_PREFIX}latest";
 else
-  export TAG="devel";
+  export TAG="${TAG_PREFIX}devel";
 fi
 mkdir -p $HOME/.docker
 echo '{"experimental": "enabled"}'>$HOME/.docker/config.json

@@ -2,9 +2,9 @@
 set -ex
 
 if [ "x$TRAVIS_BRANCH" = "xmaster" -o "x$TRAVIS_BRANCH" = "xstable" ]; then
-  export TAG="latest";
+  export TAG="${TAG_PREFIX}latest";
 else
-  export TAG="devel";
+  export TAG="${TAG_PREFIX}devel";
 fi
 BUILD=true PUSH=false TAG=$TAG ./build.sh
 
