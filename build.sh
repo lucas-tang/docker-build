@@ -29,7 +29,7 @@ fi
 : ${ARCH_TAG:="${TAG}-${DOCKER_ARCH}"}
 
 #Qemu binary
-: ${QEMU_VERSION:="v2.12.0-1"}
+: ${QEMU_VERSION:="v3.0.0"}
 QEMU_ARCH_amd64=amd64
 QEMU_ARCH_arm64=aarch64
 QEMU_ARCH_arm=arm
