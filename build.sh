@@ -11,7 +11,8 @@ DOCKER_ARCH_ACTUAL="$(docker version -f '{{.Server.Arch}}')"
 : ${MANIFEST:="false"}
 
 #good defaults
-test -e ./build.config && . ./build.config
+: ${CONFIG_FILE:="./build.config"}
+test -e ${CONFIG_FILE} && . ${CONFIG_FILE}
 : ${BASE:="alpine"}
 : ${REPO:="angelnu/test"}
 : ${DOCKER_BUILD_FOLDER:="."}
@@ -64,17 +65,6 @@ if [ "$BUILD" = true ] ; then
     fi
   fi
   cd ..
-
-  #Build docker
-  echo "Building $REPO:$ARCH_TAG using base image $BASE and qemu arch $QEMU_ARCH"
-  docker pull $REPO:$ARCH_TAG || true
-  docker build -t $REPO:$ARCH_TAG --cache-from $REPO:$ARCH_TAG --build-arg BASE=$BASE --build-arg arch=$QEMU_ARCH -f $DOCKERFILE ${DOCKER_BUILD_FOLDER}
-
-  if [ -n "$TAG_COMMIT" ] ; then
-    echo "Tag alias: $REPO:$ARCH_TAG_COMMIT"
-    docker tag $REPO:$ARCH_TAG $REPO:$ARCH_TAG_COMMIT
-  fi
-fi
 
 ##############################
 
