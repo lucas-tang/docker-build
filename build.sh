@@ -67,6 +67,7 @@ if [ "$BUILD" = true ] ; then
   #Build docker
   echo "Building $REPO:$ARCH_TAG using base image $BASE and qemu arch $QEMU_ARCH"
   docker pull $REPO:$ARCH_TAG || true
+  docker pull $BASE || true
   docker build -t $REPO:$ARCH_TAG --cache-from $REPO:$ARCH_TAG --build-arg BASE=$BASE --build-arg arch=$QEMU_ARCH -f $DOCKERFILE ${DOCKER_BUILD_FOLDER}
 
   if [ -n "$TAG_COMMIT" ] ; then
