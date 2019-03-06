@@ -18,7 +18,7 @@ steps:
     DOCKER_PASS:
       from_secret: DOCKER_PASS
   commands:
-  - ./cicd_build.sh
+  - ./build/cicd_build.sh
 
 ---
 kind: pipeline
@@ -40,7 +40,7 @@ steps:
     DOCKER_PASS:
       from_secret: DOCKER_PASS
   commands:
-  - ./cicd_build.sh
+  - ./build/cicd_build.sh
 
 ---
 kind: pipeline
@@ -62,7 +62,7 @@ steps:
     DOCKER_PASS:
       from_secret: DOCKER_PASS
   commands:
-  - ./cicd_build.sh
+  - ./build/cicd_build.sh
 
 ---
 kind: pipeline
@@ -88,4 +88,4 @@ steps:
     DOCKER_PASS:
       from_secret: DOCKER_PASS
   commands:
-  - ./cicd_manifest.sh
+  - ./build/cicd_manifest.sh

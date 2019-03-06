@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 set -ex
 
 if [    "x$TRAVIS_BRANCH" = "xmaster" \
