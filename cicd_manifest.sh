@@ -1,10 +1,10 @@
 #!/usr/bin/env sh
 set -ex
 
-if [ ! -z "$TRAVIS" ]; then
-  sudo apt-get update
-  sudo apt-get install "docker-ce=18.03*"
-fi
+#if [ ! -z "$TRAVIS" ]; then
+  #sudo apt-get update
+  #sudo apt-get install "docker-ce=18.03*"
+#fi
 
 if [    "x$TRAVIS_BRANCH" = "xmaster" \
      -o "x$TRAVIS_BRANCH" = "xstable" \
