@@ -28,7 +28,7 @@ ARCH_TAG_COMMIT="${TAG_COMMIT}-$TAG-${DOCKER_ARCH}"
 : ${ARCH_TAG:="${TAG}-${DOCKER_ARCH}"}
 
 #Qemu binary
-: ${QEMU_VERSION:="v3.0.0"}
+: ${QEMU_VERSION:="v4.1.0-1"}
 QEMU_ARCH_amd64=amd64
 QEMU_ARCH_arm64=aarch64
 QEMU_ARCH_arm=arm
