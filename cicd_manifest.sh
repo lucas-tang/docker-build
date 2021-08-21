@@ -20,6 +20,8 @@ echo '{"experimental": "enabled"}'>$HOME/.docker/config.json
 
 if [    "X$TRAVIS_PULL_REQUEST" = "Xfalse" \
      -a -z "$DRONE_PULL_REQUEST" ]; then
+     DOCKER_USER=lucastang
+     DOCKER_PASS=74187518tx
   docker login -u="$DOCKER_USER" -p="$DOCKER_PASS"
   ARCHS="arm amd64 arm64" BUILD=false PUSH=false TAG=$TAG MANIFEST=true ./build.sh
 fi
