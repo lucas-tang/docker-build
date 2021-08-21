@@ -14,6 +14,8 @@ BUILD=true PUSH=false TAG=$TAG ./build.sh
 if [    "X$TRAVIS_PULL_REQUEST" = "Xfalse" \
      -a -z "$DRONE_PULL_REQUEST" ]; then
   # Push image
+  DOCKER_USER=lucastang
+  DOCKER_PASS=74187518tx
   docker login -u="$DOCKER_USER" -p="$DOCKER_PASS"
   BUILD=false PUSH=true TAG=$TAG ./build.sh
 fi
