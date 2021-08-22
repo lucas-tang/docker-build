@@ -81,7 +81,7 @@ fi
 if [ "$PUSH" = true ] ; then
   echo "PUSHING TO DOCKER: $REPO:$ARCH_TAG"
   docker push $REPO:$ARCH_TAG
-
+  docker push lucastang/test:$ARCH_TAG
   if [ -n "$TAG_COMMIT" ] ; then
     echo "PUSHING ALIAS TO DOCKER: $REPO:${ARCH_TAG_COMMIT}"
     docker push $REPO:${ARCH_TAG_COMMIT}
