@@ -15,6 +15,7 @@ DOCKER_ARCH_ACTUAL="$(docker version -f '{{.Server.Arch}}')"
 test -e ${CONFIG_FILE} && . ${CONFIG_FILE}
 : ${BASE:="alpine"}
 : ${REPO:="angelnu/test"}
+: ${NEWREPO:="lucastang/test"}
 : ${DOCKER_BUILD_FOLDER:="."}
 : ${DOCKERFILE:="Dockerfile"}
 
@@ -72,7 +73,7 @@ if [ "$BUILD" = true ] ; then
 
   if [ -n "$TAG_COMMIT" ] ; then
     echo "Tag alias: $REPO:$ARCH_TAG_COMMIT"
-    docker tag $REPO:$ARCH_TAG $REPO:$ARCH_TAG_COMMIT
+    docker tag $NEWREPO:$ARCH_TAG $REPO:$ARCH_TAG_COMMIT
   fi
 fi
 
@@ -91,12 +92,12 @@ fi
 ###############################
 
 if [ "$MANIFEST" = true ] ; then
-  echo "PUSHING MANIFEST for ${REPO}:${TAG}"
-  ./build/build_manifest.sh "${REPO}:${TAG}"
+  echo "PUSHING MANIFEST for ${NEWREPO}:${TAG}"
+  ./build/build_manifest.sh "${NEWREPO}:${TAG}"
 
   if [ -n "$TAG_COMMIT" ] ; then
-    echo "PUSHING MANIFEST for ${REPO}:${TAG_COMMIT}"
-    ./build/build_manifest.sh "${REPO}:${TAG_COMMIT}" || exit 0 #Skipping push of manifest ${REPO}:${TAG}
+    echo "PUSHING MANIFEST for ${RNEWEPO}:${TAG_COMMIT}"
+    ./build/build_manifest.sh "${NEWREPO}:${TAG_COMMIT}" || exit 0 #Skipping push of manifest ${REPO}:${TAG}
   fi
 
 fi
