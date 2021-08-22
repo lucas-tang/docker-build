@@ -96,7 +96,7 @@ if [ "$MANIFEST" = true ] ; then
   ./build/build_manifest.sh "${NEWREPO}:${TAG}"
 
   if [ -n "$TAG_COMMIT" ] ; then
-    echo "PUSHING MANIFEST for ${RNEWEPO}:${TAG_COMMIT}"
+    echo "PUSHING MANIFEST for ${NEWEPO}:${TAG_COMMIT}"
     ./build/build_manifest.sh "${NEWREPO}:${TAG_COMMIT}" || exit 0 #Skipping push of manifest ${NEWREPO}:${TAG}
   fi
 
